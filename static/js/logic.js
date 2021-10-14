@@ -30,6 +30,7 @@ function colorElevate(location) {
   return color;
 }
 
+
 // Creating the map object
 var myMap = L.map("map", {
   center: [40.71, -116.10],
@@ -62,8 +63,32 @@ d3.json(url, function(response) {
         fillOpacity: .5,
         // Adjust the radius.
         radius: markerSize(properties.mag)
-      }).bindPopup(`<h1>${properties.place}</h1> <hr> <h3>Time: ${timeConverted}</h3> <h3>Magnitude: ${properties.mag}<h3> <h3>Elevation: ${location.coordinates[2]}<h3>`).addTo(myMap);
-  }
+      }).bindPopup(`<h1>${properties.place}</h1> 
+        <hr> <h3>Time: ${timeConverted}</h3> 
+        <h3>Magnitude: ${properties.mag}<h3> 
+        <h3>Elevation: ${location.coordinates[2]}<h3>`
+        ).addTo(myMap);
+  };
+
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var labels = ["10 or less", "10-30", "30-50", "50-70", "70-90", "90 or more"];
+    var grade = ["#4cbb17", "#ADFF2F", "#FFFF00", "#FFD700", "#FFA500", "#FF6347"];
+    title=`<fieldset style ="background: white">`;
+    var infoLine = ''
+    for(var i = 0; i < grade.length; i++) {
+      infoLine +=`<fieldset style="background:${grade[i]}; padding: 0px"><b>
+      ${labels[i]}<b></fieldset>`;
+    };
+    div.innerHTML = title + infoLine + "</fieldset>"
+    console.log(div.innerHTML)
+    return div
+    
+
+  };
+  legend.addTo(myMap); 
 });
+
 
 
