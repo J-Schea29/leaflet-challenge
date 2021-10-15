@@ -38,13 +38,22 @@ var myMap = L.map("map", {
 });
 
 // Adding the tile layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(myMap);
+});
+
+var topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+
+var baseMaps = {
+  "Street Map": street,
+  "Topographic Map": topo
+};
 
 
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
-
+var quake = [];
 d3.json(url, function(response) {
 
   var features = response.features
@@ -56,6 +65,9 @@ d3.json(url, function(response) {
     var timeConverted = convertTimestamp(timestamp)
     colorElevate(location);
 
+    
+
+    // quake.push(
     L.circle([location.coordinates[1], location.coordinates[0]], {
         color: "black",  
         fillColor: color,
@@ -68,8 +80,10 @@ d3.json(url, function(response) {
         <h3>Magnitude: ${properties.mag}<h3> 
         <h3>Elevation: ${location.coordinates[2]}<h3>`
         ).addTo(myMap);
+    // );
   };
 
+  // console.log(quake)
   var legend = L.control({ position: "bottomright" });
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
@@ -82,7 +96,6 @@ d3.json(url, function(response) {
       ${labels[i]}<b></fieldset>`;
     };
     div.innerHTML = title + infoLine + "</fieldset>"
-    console.log(div.innerHTML)
     return div
     
 
@@ -90,5 +103,23 @@ d3.json(url, function(response) {
   legend.addTo(myMap); 
 });
 
+// url2 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_steps.json"
+// path = "static/data/plates.json"
+// d3.json(url2, function(response) {
+//   console.log(response)
+//   var features = response.features
+//   for (var i = 0; i < features.length; i++) {
+//     var boundaries = features[i].geometry.coordinates
+    
+//     L.polyline(boundaries, {
+//       color: "red"
+//     }).addTo(myMap);
+    
+//   };
+  
+// });
 
+L.control.layers(baseMaps, quake, {
+  collapsed: false
+}).addTo(myMap);
 
