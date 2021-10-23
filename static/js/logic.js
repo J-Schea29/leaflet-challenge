@@ -30,13 +30,6 @@ function colorElevate(location) {
   return color;
 }
 
-
-// Creating the map object
-var myMap = L.map("map", {
-  center: [40.71, -116.10],
-  zoom: 5
-});
-
 // Adding the tile layer
 var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -51,6 +44,12 @@ var baseMaps = {
   "Topographic Map": topo
 };
 
+// Creating the map object
+var myMap = L.map("map", {
+  center: [40.71, -116.10],
+  zoom: 5,
+  layers: [street]
+});
 
 var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 var quake = [];
@@ -102,22 +101,6 @@ d3.json(url, function(response) {
   };
   legend.addTo(myMap); 
 });
-
-// url2 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_steps.json"
-// path = "static/data/plates.json"
-// d3.json(url2, function(response) {
-//   console.log(response)
-//   var features = response.features
-//   for (var i = 0; i < features.length; i++) {
-//     var boundaries = features[i].geometry.coordinates
-    
-//     L.polyline(boundaries, {
-//       color: "red"
-//     }).addTo(myMap);
-    
-//   };
-  
-// });
 
 L.control.layers(baseMaps, quake, {
   collapsed: false
