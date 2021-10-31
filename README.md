@@ -19,6 +19,8 @@ For this asignment, I had to create a map using Leaflet/Javascript that visualiz
 ## Setup
 
 ## Deployment 
+The final website looks like this:
+
 Click [here](https://j-schea29.github.io/leaflet-challenge/) to see the final website that has been deployed to Github pages.
 ## Sources
 <https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php>
