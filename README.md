@@ -20,7 +20,7 @@ For this asignment, I had to create a map using Leaflet/Javascript that visualiz
 
 ## Deployment 
 The final website looks like this:
-
+![image](https://user-images.githubusercontent.com/84929443/135166772-ab070cd2-8fe6-4fb5-b890-e72e3658d5d8.png)
 Click [here](https://j-schea29.github.io/leaflet-challenge/) to see the final website that has been deployed to Github pages.
 ## Sources
 <https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php>
